@@ -58,8 +58,8 @@ class SignUpWidget extends StatelessWidget {
               color: Colors.transparent,
             ),
             InputField(
-              onChanged: (texvalue) {
-                username = texvalue;
+              onChanged: (textValue) {
+                username = textValue;
                 print("mobile-number --> $username");
               },
               lable: "mobile number",

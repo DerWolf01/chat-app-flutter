@@ -9,7 +9,7 @@ class InputField extends StatelessWidget {
   final String lable;
   final TextEditingController _textEditingController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  void Function(String texvalue)? onChanged;
+  void Function(String textValue)? onChanged;
 
   ValueNotifier<bool> focused = ValueNotifier(false);
 
