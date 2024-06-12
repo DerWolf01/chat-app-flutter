@@ -14,7 +14,7 @@ class SelfChatMessage extends StatelessWidget {
               boxShadow: ShadowDecoration().boxShadow,
               borderRadius: BorderRadius.only(
                   topRight: radius, bottomRight: radius, topLeft: radius),
-              color: SECONDARY),
+              color: secondary),
           child: const Text("hallo"))
     ]);
   }

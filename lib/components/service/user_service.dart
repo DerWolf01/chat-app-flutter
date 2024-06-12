@@ -1,19 +1,14 @@
 import 'package:chat_app_dart/database/database.dart';
 import 'package:chat_app_dart/firestore/model/user.dart';
+import 'package:chat_app_dart/get_it/setup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class UserService {
-  UserService._internal();
-  static UserService? _instance;
-  factory UserService() {
-    _instance ??= UserService._internal();
-    return _instance!;
-  }
   User? activeUser;
   ValueNotifier<bool> signedUp = ValueNotifier(false);
-  Future<Database> get _db => DatabaseConnector().db;
+  Future<Database> get _db => getIt<DatabaseConnector>().db;
   Future<User?> verifySignUp() async {
     try {
       var db = (await _db);
@@ -42,9 +37,9 @@ class UserService {
       var db = (await _db);
       await db.execute("DROP TABLE IF EXISTS USER");
       await db.execute(
-          "CREATE TABLE IF NOT EXISTS User (id INTEGER PRIMARY KEY, mobileNumber VARCHAR)");
+          "CREATE TABLE IF NOT EXISTS User (id INTEGER primary KEY, username VARCHAR)");
       res = await db.insert(
-          "User", {"id": user.id, "mobileNumber": "'${user.mobileNumber}'"},
+          "User", {"id": user.id, "username": "'${user.username}'"},
           conflictAlgorithm: ConflictAlgorithm.replace);
       activeUser = user;
     } catch (e) {

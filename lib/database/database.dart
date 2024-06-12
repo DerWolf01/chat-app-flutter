@@ -3,16 +3,10 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DatabaseConnector {
-  DatabaseConnector._internal();
   Database? database;
-  static DatabaseConnector? _instance;
-
-  factory DatabaseConnector() {
-    _instance ??= DatabaseConnector._internal();
-    return _instance!;
-  }
 
   Future<Database> get db async {
+    print(database);
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'chat_app.db');
     database ??= await openDatabase(
@@ -21,7 +15,7 @@ class DatabaseConnector {
       onCreate: (db, version) async {
         try {
           await db.execute(
-              "CREATE TABLE  User (id INTEGER PRIMARY KEY, mobileNumber VARCHAR)");
+              "CREATE TABLE  User (id INTEGER PRIMARY KEY, username VARCHAR)");
         } catch (e) {
           print(e);
         }
@@ -29,7 +23,7 @@ class DatabaseConnector {
       onOpen: (db) async {
         try {
           await db.execute(
-              "CREATE TABLE  User (id INTEGER PRIMARY KEY, mobileNumber VARCHAR)");
+              "CREATE TABLE  User (id INTEGER PRIMARY KEY, username VARCHAR)");
         } catch (e) {
           print(e);
         }

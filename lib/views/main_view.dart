@@ -3,6 +3,7 @@ import 'package:chat_app_dart/components/ripple_button/fancy_ripple_button.dart'
 import 'package:chat_app_dart/components/service/user_service.dart';
 import 'package:chat_app_dart/firestore/firestore.dart';
 import 'package:chat_app_dart/firestore/model/user.dart';
+import 'package:chat_app_dart/get_it/setup.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app_dart/components/main_content/main_content.dart';
 import 'package:chat_app_dart/components/sidebar/sidebar.dart';
@@ -12,23 +13,24 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    
-     FutureBuilder(
-        future: UserService().verifySignUp(),
-        builder: (context, snapshot) {
-          return ValueListenableBuilder(
-              valueListenable: UserService().signedUp,
-              builder: (context, signedUp, child) {
-                if (!signedUp) {
-                  return const SignUpWidget();
-                }
-                return Stack(children: [
-                  const MainContent(),
-                  SideMenu(),
-                ]);
-              });
-        });
+    return Container(
+        decoration: BoxDecoration(),
+        clipBehavior: Clip.antiAlias,
+        child: FutureBuilder(
+            future: getIt<UserService>().verifySignUp(),
+            builder: (context, snapshot) {
+              return ValueListenableBuilder(
+                  valueListenable: getIt<UserService>().signedUp,
+                  builder: (context, signedUp, child) {
+                    if (!signedUp) {
+                      return const SignUpWidget();
+                    }
+                    return Stack(children: [
+                      MainContent(),
+                      SideMenu(),
+                    ]);
+                  });
+            }));
   }
 }
 
@@ -37,14 +39,14 @@ class SignUpWidget extends StatelessWidget {
 
   Future signUp(User user) async {
     var res = await collection("user").add(user.toMap());
-    var verifySignUp = await UserService().signUp(user);
+    var verifySignUp = await getIt<UserService>().signUp(user);
 
     return;
   }
 
   @override
   Widget build(BuildContext context) {
-    String mobileNumber = "";
+    String username = "";
     return Container(
       padding: const EdgeInsets.all(25),
       child: Column(
@@ -57,8 +59,8 @@ class SignUpWidget extends StatelessWidget {
             ),
             InputField(
               onChanged: (texvalue) {
-                mobileNumber = texvalue;
-                print("mobile-number --> $mobileNumber");
+                username = texvalue;
+                print("mobile-number --> $username");
               },
               lable: "mobile number",
             ),
@@ -69,7 +71,7 @@ class SignUpWidget extends StatelessWidget {
                 width: MediaQuery.sizeOf(context).width,
                 child: FancyRippleButton(
                     onTap: () async {
-                      await signUp(User.newUser(mobileNumber));
+                      await signUp(User.newUser(username));
                     },
                     // ignore: prefer_const_constructors
                     child: Row(

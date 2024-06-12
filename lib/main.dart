@@ -1,4 +1,5 @@
 import 'package:chat_app_dart/firestore/firebase_options.dart';
+import 'package:chat_app_dart/get_it/setup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,7 @@ import 'package:chat_app_dart/views/main_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
+  setupGetIt();
   WidgetsFlutterBinding.ensureInitialized();
   var app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

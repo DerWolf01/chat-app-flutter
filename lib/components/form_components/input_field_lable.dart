@@ -1,3 +1,5 @@
+import 'package:chat_app_dart/controller/side_menu_controller.dart';
+import 'package:chat_app_dart/get_it/setup.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app_dart/utils/colors.dart';
 
@@ -32,8 +34,8 @@ class LableSettings {
 
   TextStyle getStyle(bool focused) {
     if (focused) {
-      return TextStyle(color: PRIMARY, shadows: [
-        Shadow(blurRadius: 25, offset: Offset(0, 3), color: SECONDARY)
+      return TextStyle(color: primary, shadows: [
+        Shadow(blurRadius: 25, offset: Offset(0, 3), color: secondary)
       ]);
     }
 
@@ -50,15 +52,15 @@ class InputLable extends StatelessWidget {
   final bool hasValue;
   late final String lable;
   final LableSettings lableSettings = LableSettings();
-
+  final SideMenuController sideMenuController = getIt<SideMenuController>();
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-        curve: Curves.elasticOut,
+        curve: sideMenuController.curve,
         alignment: Alignment.centerLeft,
         transform:
             lableSettings.getTranslationValues(context, focused, hasValue),
-        duration: const Duration(milliseconds: 1333),
+        duration: sideMenuController.duration,
         child: Text(lable, style: lableSettings.getStyle(focused)));
   }
 }

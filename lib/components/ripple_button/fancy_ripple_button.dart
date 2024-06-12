@@ -19,13 +19,13 @@ class FancyRippleButton extends StatelessWidget {
       },
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(23)),
-          color: PRIMARY,
+          color: primary,
           boxShadow: [
             BoxShadow(
                 blurRadius: 19,
                 spreadRadius: 7,
                 offset: const Offset(0, 7),
-                color: SECONDARY)
+                color: secondary)
           ]),
       child: child,
     );
