@@ -7,10 +7,14 @@ class ChatInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      InputField(
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Expanded(
+          child: InputField(
         lable: "message",
-        validationRequirements: [],
+      )),
+      const VerticalDivider(
+        width: 15,
+        color: Colors.transparent,
       ),
       const FancyRippleButton(
         child: Icon(Icons.send_rounded),

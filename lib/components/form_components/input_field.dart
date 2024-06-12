@@ -1,18 +1,15 @@
-import 'package:chat_app_dart/components/form_components/decorators/data.dart';
-import 'package:chat_app_dart/components/form_components/input_field_label.dart';
+import 'package:chat_app_dart/components/form_components/input_field_lable.dart';
 
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class InputField extends StatelessWidget {
-  InputField(
-      {required this.lable, required this.validationRequirements, super.key});
+  InputField({required this.lable, this.onChanged, super.key});
 
-  final List<Data> validationRequirements;
   final String lable;
   final TextEditingController _textEditingController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  final Map<String, String> errorMessages = {};
+  void Function(String texvalue)? onChanged;
 
   ValueNotifier<bool> focused = ValueNotifier(false);
 
@@ -45,10 +42,11 @@ class InputField extends StatelessWidget {
               }),
           AnimatedContainer(
               duration: const Duration(milliseconds: 251),
-              transform: Matrix4.translationValues(0, -5, 0),
+              transform: Matrix4.translationValues(0, -10, 0),
               child: Center(
                   child: TextField(
                 focusNode: _focusNode,
+                onChanged: onChanged,
                 controller: _textEditingController,
                 cursorColor: const Color.fromARGB(255, 234, 59, 237),
                 decoration: const InputDecoration(border: InputBorder.none),
@@ -58,20 +56,5 @@ class InputField extends StatelessWidget {
 
   String get value {
     return _textEditingController.text;
-  }
-
-  bool check() {
-    var ready = true;
-    for (var validationRequirement in validationRequirements) {
-      ValidationResult validationResult = validationRequirement.validate(value);
-
-      if (!validationResult.valid) {
-        ready = false;
-        errorMessages[validationRequirement.runtimeType.toString()] =
-            validationResult.errorMessage;
-        print(validationResult.errorMessage);
-      }
-    }
-    return ready;
   }
 }

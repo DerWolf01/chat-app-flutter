@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ShadowDecoration extends BoxDecoration {
-  ShadowDecoration()
+  ShadowDecoration({double? borderRadius})
       : super(
-            borderRadius: const BorderRadius.all(Radius.circular(11)),
+            borderRadius: BorderRadius.circular(borderRadius ?? 11),
             color: Colors.white,
             boxShadow: [
               const BoxShadow(
