@@ -3,7 +3,7 @@ import 'package:chat_app_dart/get_it/setup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'package:chat_app_dart/views/main_view.dart';
+import 'package:chat_app_dart/main_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
