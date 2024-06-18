@@ -7,14 +7,19 @@ import 'package:chat_app_dart/advanced_change_notifiers/list_change_notifier.dar
 import 'package:chat_app_dart/firestore/firestore.dart';
 import 'package:chat_app_dart/get_it/setup.dart';
 import 'package:chat_app_dart/side_menu/controller/side_menu_controller.dart';
+import 'package:chat_app_dart/socket/socket_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatService extends ListChangeNotifier<Message>
     with AdvancedChangeNotifier<Message> {
   User? chosenContact;
-  UserService userService = getIt<UserService>();
   int? get activeUserId => userService.activeUser?.id;
   int? get chosenContactId => chosenContact?.id;
+
+  //services
+  UserService userService = getIt<UserService>();
+  SocketService get socketService => getIt<SocketService>();
+
   final List<Message> _lastMessages = [];
   changeContact(User user) async {
     getIt<SideMenuController>().noScreen();
@@ -22,17 +27,30 @@ class ChatService extends ListChangeNotifier<Message>
     print(chosenContactId);
     _lastMessages.clear();
     notifyListChangeListeners(value: await getMessages());
+    socketService.addListener(
+      (value) async {
+        var content = value?.content;
+        if (content is Message) {
+          if (content.receiver == activeUserId &&
+              content.sender == chosenContactId) {
+            notifyListeners(value: content);
+          }
+        }
+      },
+    );
   }
 
   Future<void> sendMessage(String text) async {
-    if (chosenContact == null || userService.activeUser == null) {
+    print("sending message!");
+    if (!usersExists) {
       return;
     }
     await createChatIfDoesntExist();
 
     var message = Message(userService.activeUser!.id, chosenContact!.id, text);
     var res = await collection("/messages").add(message.toMap());
-    notifyListeners(value: message);
+
+    await notifyListeners(value: message);
     return;
   }
 

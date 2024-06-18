@@ -35,9 +35,8 @@ class ChatMessagesState extends State<ChatMessages> {
           messages.addAll(value);
         });
 
-        controller.animateTo(messages.length * 15,
-            duration: const Duration(milliseconds: 255),
-            curve: Curves.easeInOut);
+        controller =
+            ScrollController(initialScrollOffset: messages.length * 15);
       },
     );
     chatService.addListener(
@@ -60,12 +59,12 @@ class ChatMessagesState extends State<ChatMessages> {
 
   @override
   Widget build(BuildContext context) {
-    Timer.periodic(
-      Duration(seconds: 5),
-      (timer) async {
-        await chatService.syncMessages();
-      },
-    );
+    // Timer.periodic(
+    //   Duration(seconds: 5),
+    //   (timer) async {
+    //     await chatService.syncMessages();
+    //   },
+    // );
     return messages.isNotEmpty
         ? ListView(
             controller: controller,
