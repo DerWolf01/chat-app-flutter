@@ -4,10 +4,10 @@ CollectionReference<Map<String, dynamic>> collection(String path) {
   return FirebaseFirestore.instance.collection(path);
 }
 
+Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getDocs(
+        String path) async =>
+    (await collection(path).get()).docs;
 
-enum Collections {
-  chats,
-  messages,
-  users,
-  
-}
+Future<List<DocumentChange<Map<String, dynamic>>>> getDocsChanges(
+        String path) async =>
+    (await collection(path).get()).docChanges;
