@@ -1,3 +1,4 @@
+import 'package:chat_app_dart/active_contacts/active_contacts_service.dart';
 import 'package:chat_app_dart/chat/service/chat_service.dart';
 import 'package:chat_app_dart/chat_list/service/chat_list_service.dart';
 import 'package:chat_app_dart/contact_list/service/contact_list_service.dart';
@@ -17,4 +18,5 @@ setupGetIt() {
   getIt.registerSingleton<ChatService>(ChatService());
   getIt.registerSingleton<ChatListService>(ChatListService());
   getIt.registerSingleton<SocketService>(SocketService());
+  getIt.registerSingleton<ActiveContactsService>(ActiveContactsService());
 }

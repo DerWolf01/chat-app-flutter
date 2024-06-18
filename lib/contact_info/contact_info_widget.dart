@@ -1,5 +1,8 @@
+import 'package:chat_app_dart/chat/service/chat_service.dart';
+import 'package:chat_app_dart/contact_info/contact_card.dart';
 import 'package:chat_app_dart/contact_info/gesture_callbacks/gesture_callbacks_mixin.dart';
 import 'package:chat_app_dart/get_it/setup.dart';
+import 'package:chat_app_dart/online_dot/online_dot.dart';
 import 'package:chat_app_dart/side_menu/controller/side_menu_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +98,7 @@ class ContactInfoWidget extends StatelessWidget
           transform: Matrix4.translationValues(x + 115, 0, 0),
           width: width,
           height: height,
+          alignment: Alignment.topLeft,
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.11),
@@ -103,17 +107,31 @@ class ContactInfoWidget extends StatelessWidget
           ], color: Colors.white, borderRadius: BorderRadius.circular(19)),
           child: Stack(
             children: [
-              AnimatedContainer(
-                  transform: Matrix4.translationValues(15, 15, 0),
-                  duration: duration,
-                  child: Text(
-                    "Username",
-                    style: TextStyle(fontSize: 17),
-                  )),
+              getIt<ChatService>().chosenContact != null
+                  ? AnimatedContainer(
+                      transform: Matrix4.translationValues(25, 15, 0),
+                      duration: duration,
+                      alignment: Alignment.topCenter,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              getIt<ChatService>().chosenContact!.username,
+                            ),
+                            const VerticalDivider(
+                              color: Color.fromARGB(0, 174, 174, 174),
+                              width: 35,
+                            ),
+                            OnlineDotWidget(
+                                contact: getIt<ChatService>().chosenContact!.id)
+                          ]))
+                  : Container(),
               AnimatedOpacity(
+                
                 opacity: progress * 1,
                 duration: duration,
-                child: Column(
+                child: const Column(
                   children: [Text("Media"), Text("calls")],
                 ),
               )

@@ -1,17 +1,15 @@
-import 'package:advanced_change_notifier/advanced_change_notifier.dart';
 import 'package:chat_app_dart/chat/message/message_model.dart';
 import 'package:chat_app_dart/chat/model/chat_model.dart';
 import 'package:chat_app_dart/chat/user/service/user_service.dart';
 import 'package:chat_app_dart/chat/user/model/user_model.dart';
-import 'package:chat_app_dart/advanced_change_notifiers/list_change_notifier.dart';
+import 'package:chat_app_dart/list_change_notifiers/list_change_notifier.dart';
 import 'package:chat_app_dart/firestore/firestore.dart';
 import 'package:chat_app_dart/get_it/setup.dart';
 import 'package:chat_app_dart/side_menu/controller/side_menu_controller.dart';
 import 'package:chat_app_dart/socket/socket_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ChatService extends ListChangeNotifier<Message>
-    with AdvancedChangeNotifier<Message> {
+class ChatService extends ListChangeNotifier<Message> {
   User? chosenContact;
   int? get activeUserId => userService.activeUser?.id;
   int? get chosenContactId => chosenContact?.id;
@@ -52,31 +50,6 @@ class ChatService extends ListChangeNotifier<Message>
 
     await notifyListeners(value: message);
     return;
-  }
-
-  Future syncMessages() async {
-    if (!usersExists) {
-      return;
-    }
-    var newMessages = (await getDocs("/messages"))
-        .whereParticipants([activeUserId!, chosenContactId!])
-        .toMessageList()
-        .where(
-          (element1) =>
-              _lastMessages
-                  .where(
-                    (element2) => element2.id != element1.id,
-                  )
-                  .firstOrNull ==
-              null,
-        )
-        .toList()
-        .sortMessages();
-
-    for (var m in newMessages) {
-      notifyListeners(value: m);
-      _lastMessages.add(m);
-    }
   }
 
   Future<List<Message>> getMessages() async {

@@ -1,6 +1,8 @@
 import 'package:chat_app_dart/chat/model/chat_model.dart';
 import 'package:chat_app_dart/chat/service/chat_service.dart';
+import 'package:chat_app_dart/contact_info/contact_card.dart';
 import 'package:chat_app_dart/contact_list/widget/contact_list_widget.dart';
+import 'package:chat_app_dart/online_dot/online_dot.dart';
 import 'package:chat_app_dart/ripple_button/fancy_ripple_button.dart';
 import 'package:chat_app_dart/chat_list/service/chat_list_service.dart';
 import 'package:chat_app_dart/chat/user/service/user_service.dart';
@@ -90,43 +92,14 @@ class ChatListState extends State<ChatList> {
                                   .map(
                                     (e) => Column(children: [
                                       FutureBuilder(
-                                          future: getIt<UserService>()
-                                              .findUserById(e.participants
-                                                  .extractContactId()),
-                                          builder: (context, snapshot) =>
-                                              snapshot
-                                                          .data?.id ==
-                                                      getIt<ChatService>()
-                                                          .chosenContactId
-                                                  ? Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.7,
-                                                      child: FancyRippleButton(
-                                                        onTap: () =>
-                                                            getIt<ChatService>()
-                                                                .changeContact(
-                                                                    snapshot
-                                                                        .data!),
-                                                        child: Text(
-                                                          snapshot.data
-                                                                  ?.username ??
-                                                              "no user found for id ${e.participants.extractContactId()}",
-                                                        ),
-                                                      ))
-                                                  : ExpandedRipple(
-                                                      onTap: () =>
-                                                          getIt<ChatService>()
-                                                              .changeContact(
-                                                                  snapshot
-                                                                      .data!),
-                                                      child: Text(
-                                                        snapshot.data
-                                                                ?.username ??
-                                                            "no user found for id ${e.participants.extractContactId()}",
-                                                      ),
-                                                    )),
+                                        future: getIt<UserService>()
+                                            .findUserById(e.participants
+                                                .extractContactId()),
+                                        builder: (context, snapshot) =>
+                                            snapshot.data != null
+                                                ? ContactCard(snapshot.data!)
+                                                : Container(),
+                                      ),
                                       const Divider(
                                         height: 35,
                                         endIndent: 25,

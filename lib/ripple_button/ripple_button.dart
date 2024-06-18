@@ -24,6 +24,7 @@ class RippleButton extends StatelessWidget {
   final EdgeInsets? padding;
   final BoxDecoration? decoration;
 
+  BoxDecoration get _boxDecoration => decoration ?? const BoxDecoration();
   @override
   Widget build(BuildContext context) {
     // decoration.borderRadius = BorderRadius.all(Radius.circular(15));
@@ -38,7 +39,8 @@ class RippleButton extends StatelessWidget {
           onTap: onTap ?? () {},
           borderRadius: const BorderRadius.all(Radius.circular(15)),
           child: Container(
-              decoration: decoration,
+              clipBehavior: Clip.antiAlias,
+              decoration: _boxDecoration,
               padding: padding ?? const EdgeInsets.all(15),
               child: child),
         ));

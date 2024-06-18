@@ -47,7 +47,9 @@ class SocketService extends AdvancedChangeNotifier<SocketMessage> {
       ActiveUserMessage activeUserMessage = ActiveUserMessage.fromMap(m);
       print(activeUserMessage);
       print("New active user");
+
       socketMessage = SocketMessage(activeUserMessage);
+      notifyListeners(value: socketMessage);
     }
 
     if (m["type"] == "Message") {
