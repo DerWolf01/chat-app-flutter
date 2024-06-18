@@ -4,32 +4,10 @@ import 'dart:typed_data';
 import 'package:advanced_change_notifier/advanced_change_notifier.dart';
 import 'package:chat_app_dart/chat/message/message_model.dart';
 import 'package:chat_app_dart/chat/service/chat_service.dart';
-import 'package:chat_app_dart/chat/user/model/user_model.dart';
-import 'package:chat_app_dart/firestore/model/model.dart';
 import 'package:chat_app_dart/get_it/setup.dart';
-
-class SocketMessage<T extends Model> extends Model {
-  SocketMessage(this.content);
-  T content;
-  @override
-  Map<String, dynamic> toMap() {
-    return {"type": content.runtimeType.toString(), ...content.toMap()};
-  }
-}
-
-class RegisterMessage extends Model {
-  RegisterMessage(this.userId);
-
-  int userId;
-  @override
-  Map<String, dynamic> toMap() => {"userId": userId};
-  RegisterMessage.fromMap(Map map) : userId = map["userId"];
-}
-
-class ActiveUserMessage extends RegisterMessage {
-  ActiveUserMessage(super.userId);
-  ActiveUserMessage.fromMap(super.map) : super.fromMap();
-}
+import 'package:chat_app_dart/socket/message/active_user_message.dart';
+import 'package:chat_app_dart/socket/message/register_message.dart';
+import 'package:chat_app_dart/socket/message/socket_message.dart';
 
 class SocketService extends AdvancedChangeNotifier<SocketMessage> {
   Socket? _socket;

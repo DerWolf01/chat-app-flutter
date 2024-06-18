@@ -32,7 +32,15 @@ class InputField extends StatelessWidget {
         }
       },
     );
-
+    _textEditingController.addListener(
+      () {
+        if (value.isNotEmpty) {
+          return;
+        }
+        focused.value = !focused.value;
+        _focusNode.unfocus();
+      },
+    );
     return AnimatedContainer(
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(11)),
