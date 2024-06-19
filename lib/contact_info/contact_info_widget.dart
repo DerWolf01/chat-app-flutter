@@ -6,6 +6,7 @@ import 'package:chat_app_dart/online_dot/online_dot.dart';
 import 'package:chat_app_dart/side_menu/controller/side_menu_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class ContactInfoWidget extends StatelessWidget
     with ContactInfoWidgetGestureConfig {
@@ -94,6 +95,7 @@ class ContactInfoWidget extends StatelessWidget
   Widget content(double width, double height, double x, bool dragging,
           double progress) =>
       AnimatedContainer(
+          clipBehavior: Clip.antiAlias,
           duration: dragging ? const Duration(milliseconds: 0) : duration,
           transform: Matrix4.translationValues(x + 115, 0, 0),
           width: width,
@@ -107,34 +109,53 @@ class ContactInfoWidget extends StatelessWidget
           ], color: Colors.white, borderRadius: BorderRadius.circular(19)),
           child: Stack(
             children: [
-              getIt<ChatService>().chosenContact != null
-                  ? AnimatedContainer(
-                      transform: Matrix4.translationValues(25, 15, 0),
-                      duration: duration,
-                      alignment: Alignment.topCenter,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              getIt<ChatService>().chosenContact!.username,
-                            ),
-                            const VerticalDivider(
-                              color: Color.fromARGB(0, 174, 174, 174),
-                              width: 35,
-                            ),
-                            OnlineDotWidget(
-                                contact: getIt<ChatService>().chosenContact!.id)
-                          ]))
-                  : Container(),
-              AnimatedOpacity(
-                
-                opacity: progress * 1,
-                duration: duration,
-                child: const Column(
-                  children: [Text("Media"), Text("calls")],
-                ),
-              )
+              Positioned(
+                  top: 15,
+                  left: 25,
+                  width: 255,
+                  child: getIt<ChatService>().chosenContact != null
+                      ? AnimatedContainer(
+                          transform: Matrix4.translationValues(0, 0, 0),
+                          duration: duration,
+                          alignment: Alignment.topCenter,
+                          width: 255,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  getIt<ChatService>().chosenContact!.username,
+                                ),
+                                const VerticalDivider(
+                                  color: Color.fromARGB(0, 174, 174, 174),
+                                  width: 35,
+                                ),
+                                OnlineDotWidget(
+                                    contact:
+                                        getIt<ChatService>().chosenContact!.id)
+                              ]))
+                      : Container()),
+              Positioned(
+                  height: 555,
+                  width: 355,
+                  top: 55,
+                  child: AnimatedContainer(
+                      duration: dragging
+                          ? Duration.zero
+                          : Duration(milliseconds: 355),
+                      transform: Matrix4.translationValues(
+                          0, (progress - 0.5) * 555, 0),
+                      child: Column(
+                        children: [
+                          1,
+                          1,
+                          1,
+                        ]
+                            .map(
+                              (e) => Text("Contact details"),
+                            )
+                            .toList(),
+                      )))
             ],
           ));
 }

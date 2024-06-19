@@ -17,7 +17,20 @@ class ContactMessage extends StatelessWidget {
               borderRadius: BorderRadius.only(
                   topRight: radius, bottomRight: radius, topLeft: radius),
               color: secondary),
-          child: Text(message.content))
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(message.content),
+                Container(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      DateTime.fromMillisecondsSinceEpoch(message.id)
+                          .toIso8601String()
+                          .substring(11, 16),
+                      style: TextStyle(color: Colors.white),
+                    ))
+              ]))
     ]);
   }
 }

@@ -24,15 +24,16 @@ class MainView extends StatelessWidget {
                   valueListenable: getIt<UserService>().signedUp,
                   builder: (context, signedUp, child) {
                     print("signedUp --> $signedUp");
-                    if (signedUp == false) {
-                      return const SignUpWidget();
-                    } else {
-                      getIt<SocketService>().registerClient();
-                      return Stack(children: [
-                        MainContent(),
-                        SideMenu(),
-                      ]);
-                    }
+                    // if (signedUp == false) {
+                    //   return const SignUpWidget();
+                    // } else {
+                    getIt<SocketService>().registerClient();
+
+                    return Stack(children: [
+                      MainContent(),
+                      SideMenu(),
+                    ]);
+                    // }
                   });
             }));
   }

@@ -41,7 +41,9 @@ class ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+        width: double.infinity,
+        height: double.infinity,
         padding: const EdgeInsets.only(bottom: 25, left: 25, right: 25),
         child: Stack(
             alignment: Alignment.topCenter,

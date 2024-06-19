@@ -17,7 +17,20 @@ class UserMessage extends StatelessWidget {
               borderRadius: BorderRadius.only(
                   topRight: radius, bottomLeft: radius, topLeft: radius),
               color: Colors.white),
-          child: Text(message.content))
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(message.content),
+                Container(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      DateTime.fromMillisecondsSinceEpoch(message.id)
+                          .toIso8601String()
+                          .substring(11, 16),
+                      style: TextStyle(color: Colors.grey),
+                    ))
+              ]))
     ]);
   }
 }

@@ -38,9 +38,10 @@ class ChatListState extends State<ChatList> {
         });
       },
     );
+
     sideMenuController.addListener(
-      () async {
-        if (sideMenuController.value == SideMenuState.halfScreen) {
+      (state) async {
+        if (state == SideMenuState.halfScreen) {
           await chatListService.getChats();
         }
       },
